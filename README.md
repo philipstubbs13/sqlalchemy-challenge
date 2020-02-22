@@ -3,7 +3,6 @@
 Climate analysis and data exploration for Hawaiii temperature and temperature station data. This analysis was completed using SQLAlchemy ORM queries, Pandas, and Matplotlib.
 
 * [Overview](#overview)
-* [Jupyter Notebook](#nb)
 * [Technologies Used](#technologies)
 
 ##  <a name="overview"></a>Overview
