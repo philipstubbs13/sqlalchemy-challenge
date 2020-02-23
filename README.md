@@ -11,14 +11,21 @@ This repository includes a data analysis of Hawaii climate data, which is stored
 
 * [Climate Analysis and Exploration](#exploration)
 * [Climate Flask App](#app)
+* [Temperature Analysis II](#temp_analysis_ii)
 
 ### <a name="exploration"></a>Climate Analysis and Exploration
 
 To start, I used Python and SQLAlchemy to do a climate analysis and data exploration of the climate database. All of the analysis was completed using SQLAlchemy ORM queries, Pandas, and Matplotlib.
 
+#### Reflect Tables into SQLAlchemy ORM
+
 The analysis was done inside a jupyter notebook file, which can be found [here](./climate.ipynb). In this file, I used SQLAlchemy `create_engine` to connect to the sqlite database and then used SQLAlchemy `automap_base()` to reflect the tables into classes. References to those classes are saved as variables and are called Station and Measurement.
 
+#### Exploratory Climate Analysis
+
 After setting up the database, I did an analysis on the precipitation data. Specifically, I designed a query to retrieve the last 12 months of precipitation data. To do this, I used a package called `dateutil.relativedelta` to calculate the date 1 year ago from the last point in the database. I then stored the date and precipitation values from the query into a Pandas dataframe so that I could plot the results as a bar chart using Matplotlib. Images of the visualizations for this analysis can be found [here](./Images).
+
+#### Station Analysis
 
 After analyzing precipitation data, I did a quick analysis of the station data. Specifically, I designed a query to show how many stations are available in this dataset. After that, I created another query to find the most active station (i.e., the station with the highest number of temperature observations.). Using the results from this query, I was able to calculate the lowest temperature recorded, the highest temperature recorded, and the average temperature of the most active station. Finally, I took the last 12 months of temperature observation data for the most active station and plotted the results as a histogram with `bins=12`. Images of the visualizations for this analysis can be found [here](./Images).
 
@@ -42,6 +49,12 @@ In the app, here are the available routes/endpoints you can hit:
 | `/api/v1.0/tobs`   |  This route queries for the dates and temperature observations from a year from the last data point. It returns a JSON list of temperature observations (tobs) for the previous year. |
 | `/api/v1.0/<start>` | This route return a JSON list of the minimum temperature, the average temperature, and the max temperature for a given start date. If you only specify a start date, the endpoint calculates the minimum, average, and maximum temperature for all dates greater than and equal to the start date. The endpoint accepts dates using the YYYY-MM-DD date format (e.g., 2012-02-28). If the date you specify isn't in range of the dataset, you wlll get a 404 like message that no temperature data was found for that date range. |
 | `/api/v1.0/<start>/<end>` | This route return a JSON list of the minimum temperature, the average temperature, and the max temperature for a given start-end range. If you specify both a start and an end date, the endpoint calculates the minimum, average, and maximum temperature for dates between the start and end date inclusive. The endpoint accepts dates using the YYYY-MM-DD date format (e.g., 2012-02-28). If the date you specify isn't in range of the dataset, you wlll get a 404 like message that no temperature data was found for that date range. |
+
+### <a name="temp_analysis_ii"></a>Temperature Analysis II
+
+Inside the jupyter notebook file, there is a function called `calc_temps`, which accepts a start date and end date in the format `%Y-%m-%d` and returns the minimum, average, and maximum temperatures for that range of dates. Using the `calc_temps` function, I calculated the min, avg, and max temperatures for my trip using the matching dates from the previous year. I then plotted the min, avg, and max temperature from the previous query as a bar chart. I used the average temperature as the bar height and used the peak-to-peak (tmax-tmin) value as the y error bar (yerr). An image of the bar chart can be found [here](./Images).
+
+I also calculated the rainfall per weather station using the previous year's matching dates and stored the results in a pandas dataframe. Then, using the `daily_normals` function, I calculated the daily normals (the averages for the min, avg, and max temperatures for each day) and plotted the results using a pandas area plot. An image of the area chart can be found [here](./Images).
 
 ##  <a name="technologies"></a>Technologies Used
 
