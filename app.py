@@ -85,7 +85,7 @@ def precipitation():
 
 @app.route("/api/v1.0/tobs")
 def tobs():
-    """Query for the dates and temperature observations from a year from the last data point."""
+    """Query for the dates and temperature observations from a year from the last data point for the most active station."""
     # Create our session (link) from Python to the DB.
     session = Session(engine)
 
@@ -97,9 +97,18 @@ def tobs():
     latest_date = latest_date.date()
     date_year_ago = latest_date - relativedelta(years=1)
 
-    # Perform a query to retrieve the data and temperature scores.
-    data_from_last_year = session.query(Measurement.date, Measurement.tobs).filter(
-        Measurement.date >= date_year_ago).all()
+    # Find the most active station.
+    most_active_station = session.query(Measurement.station).\
+        group_by(Measurement.station).\
+        order_by(func.count().desc()).\
+        first()
+
+    # Get the station id of the most active station.
+    (most_active_station_id, ) = most_active_station
+    print(f"The station id of the most active station is {most_active_station_id}.")
+
+    # Perform a query to retrieve the data and temperature scores for the most active station from the last year.
+    data_from_last_year = session.query(Measurement.date, Measurement.tobs).filter(Measurement.station == most_active_station_id).filter(Measurement.date >= date_year_ago).all()
 
     session.close()
 

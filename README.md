@@ -1,6 +1,6 @@
 # SQLAlchemy Challenge
 
-Climate analysis and data exploration for Hawaii temperature and temperature station data. This analysis was completed using SQLAlchemy ORM queries, Pandas, and Matplotlib.
+Climate analysis and data exploration for Hawaii temperature and temperature station data. If you are thinking about taking a vacation to Honolulu, Hawaii (I'm not), this might be interesting to you. This analysis was completed using SQLAlchemy ORM queries, Pandas, and Matplotlib.
 
 * [Overview](#overview)
 * [Technologies Used](#technologies)
@@ -47,7 +47,7 @@ In the app, here are the available routes/endpoints you can hit:
 |  `/` | This route is the home route. It lists all the routes that are available.  | 
 | `/api/v1.0/precipitation`   | This route queries the database, retrieves the last 12 months of precipitation data, and returns the results. The format of the results is a JSON representation of a dictionary using the date as the key and the precipitation as the value.|
 | `/api/v1.0/stations`   | This route returns a JSON list of stations from the dataset. |
-| `/api/v1.0/tobs`   |  This route queries for the dates and temperature observations from a year from the last data point. It returns a JSON list of temperature observations (tobs) for the previous year. |
+| `/api/v1.0/tobs`   |  This route queries for the dates and temperature observations from a year from the last data point for the most active station. It returns a JSON list of temperature observations (tobs) for the previous year. |
 | `/api/v1.0/<start>` | This route return a JSON list of the minimum temperature, the average temperature, and the max temperature for a given start date. If you only specify a start date, the endpoint calculates the minimum, average, and maximum temperature for all dates greater than and equal to the start date. The endpoint accepts dates using the YYYY-MM-DD date format (e.g., 2012-02-28). If the date you specify isn't in range of the dataset, you will get a 404 like message that no temperature data was found for that date range. |
 | `/api/v1.0/<start>/<end>` | This route return a JSON list of the minimum temperature, the average temperature, and the max temperature for a given start-end range. If you specify both a start and an end date, the endpoint calculates the minimum, average, and maximum temperature for dates between the start and end date inclusive. The endpoint accepts dates using the YYYY-MM-DD date format (e.g., 2012-02-28). If the date you specify isn't in range of the dataset, you wlll get a 404 like message that no temperature data was found for that date range. |
 
