@@ -7,7 +7,7 @@ Climate analysis and data exploration for Hawaii temperature and temperature sta
 
 ##  <a name="overview"></a>Overview
 
-This repository includes a data analysis of Hawaii climate data, which is stored in a sqlite database. The analysis is split up into the following parts:
+This repository includes a data analysis of Hawaii climate data, which is stored in a [sqlite database](./Resources/hawaii.sqlite). The analysis is split up into the following parts:
 
 * [Climate Analysis and Exploration](#exploration)
 * [Climate Flask App](#app)
@@ -16,7 +16,7 @@ This repository includes a data analysis of Hawaii climate data, which is stored
 
 ### <a name="exploration"></a>Climate Analysis and Exploration
 
-To start, I used Python and SQLAlchemy to do a climate analysis and data exploration of the climate database. All of the analysis was completed using SQLAlchemy ORM queries, Pandas, and Matplotlib.
+To start, I used Python and SQLAlchemy to do a climate analysis and data exploration of the [climate database](./Resources/hawaii.sqlite). All of the analysis was completed using SQLAlchemy ORM queries, Pandas, and Matplotlib.
 
 #### Reflect Tables into SQLAlchemy ORM
 
@@ -48,18 +48,18 @@ In the app, here are the available routes/endpoints you can hit:
 | `/api/v1.0/precipitation`   | This route queries the database, retrieves the last 12 months of precipitation data, and returns the results. The format of the results is a JSON representation of a dictionary using the date as the key and the precipitation as the value.|
 | `/api/v1.0/stations`   | This route returns a JSON list of stations from the dataset. |
 | `/api/v1.0/tobs`   |  This route queries for the dates and temperature observations from a year from the last data point. It returns a JSON list of temperature observations (tobs) for the previous year. |
-| `/api/v1.0/<start>` | This route return a JSON list of the minimum temperature, the average temperature, and the max temperature for a given start date. If you only specify a start date, the endpoint calculates the minimum, average, and maximum temperature for all dates greater than and equal to the start date. The endpoint accepts dates using the YYYY-MM-DD date format (e.g., 2012-02-28). If the date you specify isn't in range of the dataset, you wlll get a 404 like message that no temperature data was found for that date range. |
+| `/api/v1.0/<start>` | This route return a JSON list of the minimum temperature, the average temperature, and the max temperature for a given start date. If you only specify a start date, the endpoint calculates the minimum, average, and maximum temperature for all dates greater than and equal to the start date. The endpoint accepts dates using the YYYY-MM-DD date format (e.g., 2012-02-28). If the date you specify isn't in range of the dataset, you will get a 404 like message that no temperature data was found for that date range. |
 | `/api/v1.0/<start>/<end>` | This route return a JSON list of the minimum temperature, the average temperature, and the max temperature for a given start-end range. If you specify both a start and an end date, the endpoint calculates the minimum, average, and maximum temperature for dates between the start and end date inclusive. The endpoint accepts dates using the YYYY-MM-DD date format (e.g., 2012-02-28). If the date you specify isn't in range of the dataset, you wlll get a 404 like message that no temperature data was found for that date range. |
 
 ### <a name="temp_analysis_i"></a>Temperature Analysis I
 
-Hawaii is reputed to enjoy mild weather all year. So, I wanted to determine if there is a meaningful difference between the temperature in, for example, June and December. To do this, I used SQLAlchemy to query the temperatures in June at all stations across all available years in the dataset and do the same query for December.
+Hawaii is reputed to enjoy mild weather all year. So, I wanted to determine if there is a meaningful difference between the temperature in, for example, June and December. To do this, I used SQLAlchemy to query the temperatures in June at all stations across all available years in the dataset. I also did the same query for December.
 
-After querying for the temperature data, I identified the average temperature for June and December, plotted the temperature values on a scatter plot to show the distribution of the values, and plotted those values on a histogram to show the difference in means.
+After querying for the temperature data, I identified the average temperature for June and December, plotted the temperature values on a scatter plot to show the distribution of the values, and plotted those values on a histogram to show the difference in means. Just looking at the histogram, there appears to be a difference in the means for June and December.
 
-I decided to do an independent t-test. An independent t-test compares the means of 2 independent populations (June temperatures in Hawaii and December temperatures in Hawaii). We want to use an independent t-test because we want to compare the means of two independent populations. A paired t-test (one sample t-test) looks at comparing the sample to the population, which we don't want in this case. Assumptions include data are normally distributed, data are independent, and data are homogenous (the standard deviations are roughly equal).
+I decided to do an independent t-test. An independent t-test compares the means of 2 independent populations (June temperatures in Hawaii and December temperatures in Hawaii). We want to use an independent t-test (unpaired) rather than a paired t-test because we want to compare the means of two independent populations. A paired t-test (one sample t-test) looks at comparing the sample to the population, which we don't want in this case. Assumptions include data are normally distributed, data are independent, and data are homogenous (the standard deviations are roughly equal).
 
-The independent t-test was calculated using `scipy.stats.ttest_ind` from the scipy package. After calculating the results, it was determined that there is statistically significant difference in means (p-value of less than 0.05). In other words, the p-value is a very small value, so the means of these two populations are significantly different, and there is a lower probability that the difference is random. As a result, we can reject the null hypothesis, which is that there is no meaningful difference between the temperature in June and December in Hawaii.
+The independent t-test was calculated using `scipy.stats.ttest_ind` from the scipy package. After calculating the results, it was determined that there is a statistically significant difference in means (p-value of less than 0.05). In other words, the p-value is a very small value, so the means of these two populations are significantly different, and there is a lower probability that the difference is random. As a result, we can reject the null hypothesis, which is that there is no meaningful difference between the temperature in June and December in Hawaii.
 
 ### <a name="temp_analysis_ii"></a>Temperature Analysis II
 
@@ -77,3 +77,4 @@ I also calculated the rainfall per weather station using the previous year's mat
 * Flask
 * datetime
 * dateutil.relativedelta
+* Scipy
